@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ITEC 116 | E-Commerce to BI Integration</title>
+  <style>
+    :root {
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: #172033;
+      background: #f4f6fb;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header {
+      background: #14213d;
+      color: #ffffff;
+      padding: 24px clamp(16px, 4vw, 48px);
+    }
+    header h1 {
+      margin: 0 0 6px;
+      font-size: clamp(22px, 3vw, 30px);
+    }
+    header p {
+      margin: 0;
+      color: #dbe4f5;
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 18px;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 18px 0;
+    }
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 15px;
+      background: #2458d3;
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn.secondary {
+      background: #e3e9f7;
+      color: #1d2b4f;
+    }
+    .btn:hover { filter: brightness(0.96); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e3e8f2;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 3px 12px #13264a08;
+    }
+    .metric {
+      font-size: 25px;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+    .muted {
+      color: #66738a;
+      font-size: 13px;
+    }
+    .section { margin-top: 24px; }
+    .section h2 { font-size: 19px; margin-bottom: 10px; }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #e3e8f2;
+      border-radius: 14px;
+      padding: 18px;
+      overflow: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+    }
+    th, td {
+      text-align: left;
+      padding: 11px;
+      border-bottom: 1px solid #e8edf5;
+      font-size: 13px;
+    }
+    th {
+      color: #52617a;
+      background: #f8faff;
+    }
+    .status {
+      padding: 4px 9px;
+      border-radius: 20px;
+      background: #e4f7ec;
+      color: #17663b;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .kpi {
+      padding: 14px;
+      background: #f8faff;
+      border-radius: 10px;
+    }
+    .bar {
+      height: 8px;
+      background: #e6ebf5;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .bar span {
+      display: block;
+      height: 100%;
+      background: #2458d3;
+    }
+    .message {
+      padding: 12px 14px;
+      border-radius: 9px;
+      background: #eaf1ff;
+      color: #14213d;
+      font-weight: 600;
+      margin: 12px 0;
+      display: none;
+    }
+    .message.error {
+      background: #ffeaea;
+      color: #8d2020;
+    }
+    .formgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+    }
+    .formgrid label, .itemrow label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #52617a;
+    }
+    input, select {
+      font: inherit;
+      padding: 10px;
+      border: 1px solid #cfd8e8;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #172033;
+      width: 100%;
+    }
+    .itemrow {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 0.7fr 0.8fr 0.8fr auto;
+      gap: 10px;
+      align-items: end;
+      margin: 10px 0;
+      padding: 12px;
+      background: #f8faff;
+      border-radius: 10px;
+    }
+    .removeItem {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px;
+      background: #ffe7e7;
+      color: #8d2020;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tax-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #f8faff;
+      border: 1px solid #e3e8f2;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .tax-summary strong { color: #14213d; }
+    .token-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-left: auto;
+    }
+    .token-bar input { width: 220px; padding: 9px 11px; }
+    .foot {
+      padding: 28px 0;
+      color: #6d7890;
+      text-align: center;
+      font-size: 12px;
+    }
+    @media (max-width: 760px) {
+      .itemrow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .token-bar { margin-left: 0; width: 100%; }
+      .token-bar input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>E-Commerce → Business Intelligence</h1>
+    <p>ITEC 116 Capstone · Resilient Transaction Ingestion, Automatic Tax Calculation, ETL &amp; Governance</p>
+  </header>
+
+  <main class="wrap">
+    <div id="message" class="message"></div>
+
+    <div class="actions">
+      <button class="btn" id="runEtl">Run ETL Pipeline</button>
+      <button class="btn secondary" id="refresh">Refresh Dashboard</button>
+      <button class="btn secondary" id="export">Export Reconciliation JSON</button>
+
+      <div class="token-bar">
+        <input id="apiTokenInput" type="password" placeholder="Enter BI_API_TOKEN" aria-label="BI API Token" />
+      </div>
+    </div>
+
+    <section class="section">
+      <h2>Storefront Order Entry (UAT / Beta Workflow)</h2>
+      <div class="panel">
+        <form id="orderForm">
+          <div class="formgrid">
+            <label>Customer ID
+              <input id="customerId" required placeholder="e.g. C-1001" />
+            </label>
+            <label>Transaction ID
+              <input id="transactionId" placeholder="Auto-generated if blank" />
+            </label>
+            <label>Order Date &amp; Time
+              <input id="orderTimestamp" type="datetime-local" required />
+            </label>
+            <label>Status
+              <select id="orderStatus">
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+                <option value="checkout">Checkout</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="refunded">Refunded</option>
+              </select>
+            </label>
+          </div>
+
+          <h3>Line Items</h3>
+          <div id="lineItems"></div>
+
+          <div class="tax-summary" id="taxPreview">
+            <div>Subtotal: <strong id="previewSubtotal">₱0.00</strong></div>
+            <div>Auto Tax (<span id="previewTaxRate">12</span>% VAT): <strong id="previewTax">₱0.00</strong></div>
+            <div>Grand Total (Tax-Inclusive): <strong id="previewGrandTotal">₱0.00</strong></div>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn secondary" id="addItem">＋ Add Another Item</button>
+            <button type="submit" class="btn">Save Order to BI Staging</button>
+          </div>
+          <p class="muted">
+            Tax is calculated automatically from line-item subtotals using the active server tax rate.
+            Enter your configured <code>BI_API_TOKEN</code> above before submitting orders.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <div class="grid section">
+      <div class="card">
+        <div class="muted">Total Transactions</div>
+        <div class="metric" id="transactions">0</div>
+      </div>
+      <div class="card">
+        <div class="muted">Completed Orders</div>
+        <div class="metric" id="completed">0</div>
+      </div>
+      <div class="card">
+        <div class="muted">Completed Tax Collected</div>
+        <div class="metric" id="taxCollected">₱0.00</div>
+      </div>
+      <div class="card">
+        <div class="muted">Completed Revenue (Incl. Tax)</div>
+        <div class="metric" id="revenue">₱0.00</div>
+      </div>
+      <div class="card">
+        <div class="muted">ETL Fact Rows</div>
+        <div class="metric" id="facts">0</div>
+      </div>
+    </div>
+
+    <section class="section">
+      <h2>Data Quality &amp; Reconciliation KPIs</h2>
+      <div class="panel">
+        <div class="kpis">
+          <div class="kpi">
+            <b>Ingestion Error Rate</b>
+            <div id="errorText">0%</div>
+            <div class="bar"><span id="errorBar" style="width:0%"></span></div>
+            <p class="muted">Target: ≤ 2%</p>
+          </div>
+          <div class="kpi">
+            <b>Row Reconciliation Accuracy</b>
+            <div id="rowText">100%</div>
+            <div class="bar"><span id="rowBar" style="width:100%"></span></div>
+            <p class="muted">Target: 100% fact rows vs. expected line items</p>
+          </div>
+          <div class="kpi">
+            <b>Payload Total Match Rate</b>
+            <div id="matchText">100%</div>
+            <div class="bar"><span id="matchBar" style="width:100%"></span></div>
+            <p class="muted">Target: 100% subtotal + tax matches grand total</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Recent Storefront Transactions</h2>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Transaction ID</th>
+              <th>Timestamp</th>
+              <th>Customer</th>
+              <th>Status</th>
+              <th>Subtotal</th>
+              <th>Tax</th>
+              <th>Grand Total</th>
+              <th>Items</th>
+            </tr>
+          </thead>
+          <tbody id="transactionsBody">
+            <tr><td colspan="8">No transactions yet. Submit an order above to begin.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>BI Star-Schema Dimensional Model</h2>
+      <div class="grid">
+        <div class="card">
+          <b>Fact_Sales</b>
+          <p class="muted">Line-level sales facts with subtotal, tax, grand total, status, and optional net margin.</p>
+          <div class="metric" id="factCount">0</div>
+          <div class="muted">Fact rows</div>
+        </div>
+        <div class="card">
+          <b>Dim_Customer</b>
+          <p class="muted">Unique customer/entity identifiers.</p>
+          <div class="metric" id="customerCount">0</div>
+          <div class="muted">Customer records</div>
+        </div>
+        <div class="card">
+          <b>Dim_Product</b>
+          <p class="muted">Unique product IDs and names.</p>
+          <div class="metric" id="productCount">0</div>
+          <div class="muted">Product records</div>
+        </div>
+        <div class="card">
+          <b>Dim_Time</b>
+          <p class="muted">ISO date keys with year, month, and day attributes.</p>
+          <div class="metric" id="timeCount">0</div>
+          <div class="muted">Date records</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">ITEC 116 System Integration &amp; Architecture 2 · Production-Ready Capstone Build</div>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    let activeTaxRate = 0.12;
+
+    function roundMoney(value) {
+      return Math.round((Number(value || 0) + Number.EPSILON) * 100) / 100;
+    }
+
+    function money(value) {
+      return new Intl.NumberFormat('en-PH', {
+        style: 'currency',
+        currency: 'PHP'
+      }).format(Number(value || 0));
+    }
+
+    function notify(text, isError = false) {
+      const box = $('message');
+      box.textContent = text;
+      box.className = isError ? 'message error' : 'message';
+      box.style.display = 'block';
+      clearTimeout(box._timer);
+      box._timer = setTimeout(() => {
+        box.style.display = 'none';
+      }, 5500);
+    }
+
+    async function api(url, opts = {}) {
+      const response = await fetch(url, {
+        ...opts,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(opts.headers || {})
+        }
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        const detail = Array.isArray(data.details) ? ` (${data.details.join('; ')})` : '';
+        throw new Error((data.error || 'Request failed') + detail);
+      }
+      return data;
+    }
+
+    // Persist API token only within the active browser tab session (never hardcoded)
+    const tokenInput = $('apiTokenInput');
+    tokenInput.value = sessionStorage.getItem('bi_api_token') || '';
+    tokenInput.addEventListener('input', () => {
+      sessionStorage.setItem('bi_api_token', tokenInput.value.trim());
+    });
+
+    function collectLineItems() {
+      return [...$('lineItems').querySelectorAll('.itemrow')].map(row => {
+        const cost = row.querySelector('.cost').value;
+        return {
+          product_id: row.querySelector('.pid').value.trim(),
+          name: row.querySelector('.pname').value.trim(),
+          quantity: Number(row.querySelector('.qty').value || 0),
+          unit_price: Number(row.querySelector('.price').value || 0),
+          ...(cost !== '' ? { unit_cost: Number(cost) } : {})
+        };
+      });
+    }
+
+    function updateTaxPreview() {
+      const items = collectLineItems();
+      const subtotal = roundMoney(
+        items.reduce((sum, item) => sum + item.quantity * item.unit_price, 0)
+      );
+      const taxAmount = roundMoney(subtotal * activeTaxRate);
+      const grandTotal = roundMoney(subtotal + taxAmount);
+
+      $('previewTaxRate').textContent = (activeTaxRate * 100).toFixed(0);
+      $('previewSubtotal').textContent = money(subtotal);
+      $('previewTax').textContent = money(taxAmount);
+      $('previewGrandTotal').textContent = money(grandTotal);
+    }
+
+    function addLineItem(seed = {}) {
+      const row = document.createElement('div');
+      row.className = 'itemrow';
+      row.innerHTML = `
+        <label>Product ID
+          <input class="pid" required placeholder="P-100" value="${seed.product_id || ''}">
+        </label>
+        <label>Product Name
+          <input class="pname" required placeholder="Wireless Mouse" value="${seed.name || ''}">
+        </label>
+        <label>Quantity
+          <input class="qty" type="number" min="1" step="1" required value="${seed.quantity || 1}">
+        </label>
+        <label>Unit Price (₱)
+          <input class="price" type="number" min="0" step="0.01" required value="${seed.unit_price ?? ''}">
+        </label>
+        <label>Unit Cost (₱)
+          <input class="cost" type="number" min="0" step="0.01" placeholder="Optional" value="${seed.unit_cost ?? ''}">
+        </label>
+        <button type="button" class="removeItem" title="Remove item">Remove</button>
+      `;
+
+      row.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', updateTaxPreview);
+      });
+
+      row.querySelector('.removeItem').onclick = () => {
+        if ($('lineItems').children.length > 1) {
+          row.remove();
+          updateTaxPreview();
+        } else {
+          notify('An order must have at least one line item.', true);
+        }
+      };
+
+      $('lineItems').appendChild(row);
+      updateTaxPreview();
+    }
+
+    async function refresh() {
+      const data = await api('/api/dashboard');
+      const m = data.metrics;
+      activeTaxRate = Number.isFinite(Number(data.taxRate)) ? Number(data.taxRate) : activeTaxRate;
+      updateTaxPreview();
+
+      $('transactions').textContent = m.transactions;
+      $('completed').textContent = m.completedOrders;
+      $('taxCollected').textContent = money(m.completedTax);
+      $('revenue').textContent = money(m.revenue);
+      $('facts').textContent = m.factRows;
+
+      $('factCount').textContent = data.mart.factSales.length;
+      $('customerCount').textContent = data.mart.dimCustomer.length;
+      $('productCount').textContent = data.mart.dimProduct.length;
+      $('timeCount').textContent = data.mart.dimTime.length;
+
+      $('errorText').textContent = `${m.ingestionErrorRate}%`;
+      $('errorBar').style.width = `${Math.min(100, m.ingestionErrorRate)}%`;
+      $('rowText').textContent = `${m.rowReconciliationAccuracy}%`;
+      $('rowBar').style.width = `${Math.min(100, m.rowReconciliationAccuracy)}%`;
+      $('matchText').textContent = `${m.payloadTotalMatchRate}%`;
+      $('matchBar').style.width = `${Math.min(100, m.payloadTotalMatchRate)}%`;
+
+      const body = $('transactionsBody');
+      body.innerHTML = '';
+
+      if (!data.recentTransactions.length) {
+        body.innerHTML = '<tr><td colspan="8">No transactions yet. Submit an order above to begin.</td></tr>';
+        return;
+      }
+
+      data.recentTransactions.forEach(tx => {
+        const tr = document.createElement('tr');
+        const cells = [
+          tx.transaction_id,
+          new Date(tx.timestamp).toLocaleString(),
+          tx.entity_id,
+          tx.status,
+          money(tx.subtotal),
+          money(tx.tax_amount),
+          money(tx.monetary_value),
+          (tx.line_items || []).length
+        ];
+
+        cells.forEach((value, idx) => {
+          const td = document.createElement('td');
+          if (idx === 3) {
+            const badge = document.createElement('span');
+            badge.className = 'status';
+            badge.textContent = value;
+            td.appendChild(badge);
+          } else {
+            td.textContent = value;
+          }
+          tr.appendChild(td);
+        });
+
+        body.appendChild(tr);
+      });
+    }
+
+    $('addItem').onclick = () => addLineItem();
+    $('orderTimestamp').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 16);
+    addLineItem();
+
+    $('orderForm').onsubmit = async event => {
+      event.preventDefault();
+      const token = tokenInput.value.trim();
+      if (!token) {
+        notify('Please enter your BI_API_TOKEN in the top-right bar before submitting.', true);
+        tokenInput.focus();
+        return;
+      }
+
+      try {
+        const items = collectLineItems();
+        const subtotal = roundMoney(items.reduce((sum, i) => sum + i.quantity * i.unit_price, 0));
+        const taxAmount = roundMoney(subtotal * activeTaxRate);
+        const grandTotal = roundMoney(subtotal + taxAmount);
+
+        const tx = {
+          transaction_id: $('transactionId').value.trim() || `ORD-${Date.now()}`,
+          timestamp: new Date($('orderTimestamp').value).toISOString(),
+          entity_id: $('customerId').value.trim(),
+          subtotal,
+          tax_rate: activeTaxRate,
+          tax_amount: taxAmount,
+          monetary_value: grandTotal,
+          status: $('orderStatus').value,
+          line_items: items
+        };
+
+        const res = await api('/api/transactions', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: JSON.stringify(tx)
+        });
+
+        notify(
+          `Order ${res.transaction_id} saved · Subtotal ${money(res.subtotal)} + Tax ${money(res.tax_amount)} = ${money(res.monetary_value)}. Run ETL to update BI mart.`
+        );
+        $('transactionId').value = '';
+        $('lineItems').innerHTML = '';
+        addLineItem();
+        await refresh();
+      } catch (err) {
+        notify(`Could not save order: ${err.message}`, true);
+      }
+    };
+
+    $('runEtl').onclick = async () => {
+      const start = performance.now();
+      try {
+        const res = await api('/api/etl/run', { method: 'POST', body: '{}' });
+        notify(
+          `${res.message}: ${res.transformedTransactions} transactions, ${res.factRows} fact rows in ${(performance.now() - start).toFixed(1)} ms.`
+        );
+        await refresh();
+      } catch (err) {
+        notify(err.message, true);
+      }
+    };
+
+    $('refresh').onclick = () => refresh().catch(err => notify(err.message, true));
+
+    $('export').onclick = async () => {
+      try {
+        const data = await api('/api/export');
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'ecommerce-bi-reconciliation.json';
+        link.click();
+        URL.revokeObjectURL(link.href);
+      } catch (err) {
+        notify(err.message, true);
+      }
+    };
+
+    refresh().catch(err => notify(err.message, true));
+  </script>
+</body>
+</html>

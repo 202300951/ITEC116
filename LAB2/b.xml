@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               xmlns:health="http://healthcare.example.com">
+  <soap:Header>
+    <health:RequestInfo requestId="REQ-001" system="PatientAppointmentApp"/>
+  </soap:Header>
+  <soap:Body>
+    <health:BookAppointment>
+      <health:Patient patientId="10025">
+        <health:fullName>Daud, Omar Raouf</health:fullName>
+        <health:dateOfBirth>1997-02-26</health:dateOfBirth>
+        <health:contactNumber>+639289702892</health:contactNumber>
+        <health:sex>Male</health:sex>
+        <health:medicalHistory>Hypertension</health:medicalHistory>
+      </health:Patient>
+      <health:Appointment appointId="50001">
+        <health:appointmentStatus>true</health:appointmentStatus>
+        <health:appointmentTime>10:00:00</health:appointmentTime>
+        <health:appointmentDate>2026-08-25</health:appointmentDate>
+        <health:assignedDoctorId>12</health:assignedDoctorId>
+        <health:Doctor doctorId="12">
+          <health:doctorName>Dr. Nathaniel Bakx</health:doctorName>
+        </health:Doctor>
+      </health:Appointment>
+    </health:BookAppointment>
+  </soap:Body>
+</soap:Envelope>

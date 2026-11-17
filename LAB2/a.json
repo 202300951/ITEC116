@@ -1,0 +1,21 @@
+{
+  "patient": {
+    "patientId": 10025,
+    "fullName": "Daud, Omar Raouf",
+    "dateOfBirth": "1997-02-26",
+    "contactNumber": "+639289702892",
+    "sex": "Male",
+    "medicalHistory": "Hypertension"
+  },
+  "appointment": {
+    "appointId": "50001",
+    "appointmentStatus": true,
+    "appointmentTime": "10:00:00",
+    "appointmentDate": "2026-08-25",
+    "assignedDoctorId": 12
+  },
+  "doctor": {
+    "doctorId": 12,
+    "doctorName": "Dr. Nathaniel Bakx"
+  }
+}

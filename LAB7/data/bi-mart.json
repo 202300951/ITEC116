@@ -1,0 +1,41 @@
+{
+  "factSales": [
+    {
+      "transaction_id": "ORD-1794924782549",
+      "customer_id": "C-100",
+      "date_key": "2026-11-17",
+      "product_id": "P-100",
+      "quantity": 1,
+      "unit_price": 100,
+      "line_subtotal": 100,
+      "tax_rate": 0.12,
+      "line_tax": 12,
+      "line_total": 112,
+      "transaction_subtotal": 100,
+      "transaction_tax": 12,
+      "transaction_total": 112,
+      "status": "Completed",
+      "net_margin": null,
+      "payload_total_matches_items": true
+    }
+  ],
+  "dimCustomer": [
+    {
+      "customer_id": "C-100"
+    }
+  ],
+  "dimProduct": [
+    {
+      "product_id": "P-100",
+      "product_name": "Mouse"
+    }
+  ],
+  "dimTime": [
+    {
+      "date_key": "2026-11-17",
+      "year": 2026,
+      "month": 11,
+      "day": 17
+    }
+  ]
+}

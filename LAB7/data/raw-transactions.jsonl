@@ -1,0 +1,1 @@
+{"transaction_id":"ORD-1794924782549","timestamp":"2026-11-17T14:06:00.000Z","entity_id":"C-100","subtotal":100,"tax_rate":0.12,"tax_amount":12,"monetary_value":112,"status":"completed","line_items":[{"product_id":"P-100","name":"Mouse","quantity":1,"unit_price":100}],"received_at":"2026-11-17T14:13:02.557Z"}

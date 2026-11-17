@@ -1,0 +1,13 @@
+{
+  "name": "ecommerce-bi-integration",
+  "version": "2.0.0",
+  "description": "ITEC 116 Capstone (Activities 7 & 8): Resilient E-Commerce-to-BI Integration with Automatic Tax Calculation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/alpha-test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
