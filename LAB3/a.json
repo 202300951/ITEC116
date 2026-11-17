@@ -1,0 +1,13 @@
+{
+  "payroll": {
+    "payrollBatchId": "BATCH-202609-001",
+    "employeeId": "EMP-101",
+    "costCenterCode": "CC-IT-101",
+    "payPeriodEndDate": "2026-09-15",
+    "baseSalary": 25000.00,
+    "overtimePay": 5000.00,
+    "statutoryDeductions": 2000.00,
+    "withholdingTax": 3000.00,
+    "netDisbursement": 25000.00
+  }
+}

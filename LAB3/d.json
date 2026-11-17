@@ -1,0 +1,31 @@
+{
+  "auditEventId": "AUD-20260915-0945-001",
+  "timestamp": "2026-09-15T08:30:00.125Z",
+  "eventType": "PAYROLL_GL_BATCH_POSTING",
+  "initiatingService": "HR_PAYROLL_SERVICE",
+  "targetService": "FINANCE_LEDGER_SERVICE",
+  "targetEndpoint": "/api/v1/ledger/journal-batches",
+  "httpMethod": "POST",
+  "clientIpAddress": "192.168.10.45",
+  "securityProtocol": "OAuth 2.0 Client Credentials with mTLS",
+  "tokenClaims": {
+    "issuer": "auth.corp.enterprise.local",
+    "clientId": "hr-core-payroll-worker",
+    "authorizedScope": "finance:ledger:write"
+  },
+  "businessContext": {
+    "payrollBatchId": "BATCH-202609-001",
+    "journalBatchNumber": "BATCH-GL-202609-001",
+    "costCenterSegment": "CC-IT-101",
+    "employeeId": "EMP-101",
+    "totalDisbursement": 30000.00,
+    "currency": "PHP"
+  },
+  "executionTrace": {
+    "correlationId": "txn-payroll-202609-001",
+    "idempotencyKey": "GL-BATCH-202609-EMP-101-CC101",
+    "executionStatus": "COMMITTED_SUCCESS",
+    "httpResponseCode": 201,
+    "payloadChecksum": "8f4a2d8e4125bcf8e034267bb1d023e9a4d7c089ef01a88b5024d27e26713e2f"
+  }
+}
